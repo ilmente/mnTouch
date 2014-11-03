@@ -13,15 +13,33 @@ Nothing simpler.
 
 
 ### Tap
-	<div class="my-item" ... mm-touch tap="myFunction()">
+	<div 
+		class="my-item" ... 
+		mn-touch 
+		tap="myFunction()" >
 
 
 ### Secure tap
-	<div class="my-item" ... mm-touch secure-tap="myFunction()">
+	<div 
+		class="my-item" ... 
+		mn-touch 
+		secure-tap=“myFunction()" >
 
 
 ### Swipe (left, right, top, bottom)
-	<div class="my-item" ... mm-touch swipe-left="myFunction()">
+	<div 
+		class="my-item" ... 
+		mn-touch 
+		swipe-left=“myFunction()" >
+
+
+### Mixed events
+	<div 
+		class="my-item" ... 
+		mn-touch 
+		secure-tap=“myFunction()" 
+		swipe-left="mySwipeLeftFunction()" 
+		swipe-right="mySwipeRightFunction()" >
 
 Maybe yor're asking why I have implemented 2 different taps:
 - **tap** is faster and doesn't perform any check if the target element (or the parent) has other touch event handlers attached on it, so it's fired immediately;
