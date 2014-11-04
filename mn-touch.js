@@ -1,6 +1,6 @@
 /*
  * 
- * mnTouch, version 1.0
+ * mnTouch, version 1.0.3
  * Simple AngularJS directive for fast touch events (tap and swipe)
  * 
  * by Alessandro Bellini - ilmente
@@ -22,6 +22,7 @@ angular.module('ng').directive('mnTouch', [function(){
 		var eventInfos = {
 			startType: 'mousedown',
 			endType: 'mouseup',
+			cancelType: '',
 			getCoords: function(event){
 				return {
 					x: event.pageX || 0,
@@ -30,9 +31,12 @@ angular.module('ng').directive('mnTouch', [function(){
 			}
 		};
 		
-		if (typeof window.ontouchstart !== 'undefined' && typeof window.ontouchend !== 'undefined'){
+		if (typeof window.ontouchstart !== 'undefined' 
+			&& typeof window.ontouchend !== 'undefined'
+			&& typeof window.ontouchcancel !== 'undefined'){
 			eventInfos.startType = 'touchstart';
 			eventInfos.endType = 'touchend';
+			eventInfos.cancelType = 'touchcancel';
 			eventInfos.getCoords = function(event){
 				var coords = !!event 
 					&& !!event.changedTouches 
@@ -50,7 +54,8 @@ angular.module('ng').directive('mnTouch', [function(){
 			eventInfos.endType = 'pointerup';
 		} else if (window.navigator.msPointerEnabled){
 			eventInfos.startType = 'MSPointerDown';
-			eventInfos.endType = 'MSPointerOut'; //MSPointerDown
+			eventInfos.endType = 'MSPointerDown'; 
+			eventInfos.cancelType = 'MSPointerOut';
 		}
 		
 		if (!!attrs['tap']){
@@ -60,22 +65,28 @@ angular.module('ng').directive('mnTouch', [function(){
 		} else {
 			target.addEventListener(eventInfos.startType, function(startEvent){
 				var startCoords = eventInfos.getCoords(startEvent);
+				var eventEnded = false;
 				
 				var onEndEvent = function(endEvent){
-					target.removeEventListener(eventInfos.endType, onEndEvent, false);
+					if (!eventEnded){
+						eventEnded = true;
+						target.removeEventListener(eventInfos.endType, onEndEvent, false);
+						if (!!eventInfos.cancelType) target.removeEventListener(eventInfos.cancelType, onEndEvent, false);
+					
+						var endCoords = eventInfos.getCoords(endEvent);
+						var directionX = endCoords.x - startCoords.x;
+						var directionY = endCoords.y - startCoords.y;
+						var offsetX = Math.abs(directionX);
+						var offsetY = Math.abs(directionY);
 			
-					var endCoords = eventInfos.getCoords(endEvent);
-					var directionX = endCoords.x - startCoords.x;
-					var directionY = endCoords.y - startCoords.y;
-					var offsetX = Math.abs(directionX);
-					var offsetY = Math.abs(directionY);
-			
-					if (offsetX <= threshold && offsetY <= threshold) fn('secureTap');
-					else if (offsetX >= offsetY) fn(directionX > 0 ? 'swipeRight' : 'swipeLeft');
-					else fn(directionY > 0 ? 'swipeDown' : 'swipeUp');
+						if (offsetX <= threshold && offsetY <= threshold) fn('secureTap');
+						else if (offsetX >= offsetY) fn(directionX > 0 ? 'swipeRight' : 'swipeLeft');
+						else fn(directionY > 0 ? 'swipeDown' : 'swipeUp');
+					}
 				};
 
 				target.addEventListener(eventInfos.endType, onEndEvent, false);
+				if (!!eventInfos.cancelType) target.addEventListener(eventInfos.cancelType, onEndEvent, false);
 			}, false);
 		}
 	};
