@@ -50,7 +50,7 @@ angular.module('ng').directive('mnTouch', [function(){
 			eventInfos.endType = 'pointerup';
 		} else if (window.navigator.msPointerEnabled){
 			eventInfos.startType = 'MSPointerDown';
-			eventInfos.endType = 'MSPointerUp';
+			eventInfos.endType = 'MSPointerOut'; //MSPointerDown
 		}
 		
 		if (!!attrs['tap']){
