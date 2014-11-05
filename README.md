@@ -54,12 +54,28 @@ Maybe you're asking why I've implemented 2 different taps:
 
 Obviously, you can use it with any html element other than div. Enjoy! ;) 
 
+### Threshold
+If you want to change the edge between *secure-tap* and *swipe-…* events, you can do it using the *threshold* attribute. This represents the number of offset-points (between the start and the end of the touch) under which the event is recognized as a *secure-tap*. If the offset is higher than *threshold*, the event will be processed as a *swipe-…* depending on the direction.
+
+**Default threshold is 10.**
+	<div 
+		mn-touch 
+		threshold=“30”
+		secure-tap=“yourFunction()" 
+		swipe-left="yourSwipeLeftFunction()" >
+	...
+	</div>
+
 # Dependencies
-This plugin needs **AngularJS** only (version 1.2.*+ for sure; other versions aren't tested yet, but I think this directive would run anyway).
+This plugin needs **AngularJS** only (version 1.2.*+ for sure; other versions haven’t been tested yet, but I think this directive would run anyway).
 No jQuery required (but you can use it).
 
 # Version
-The current version is 1.0.3.
+The current version is 1.0.4.
 
+**1.0.4**
+- added threshold attribute;
+
+**1.0.3**
 - added support for cancel events (touchcancel, MSPointerOut);
 - dynamic handlers improved;

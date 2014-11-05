@@ -1,6 +1,6 @@
 /*
  * 
- * mnTouch, version 1.0.3
+ * mnTouch, version 1.0.4
  * Simple AngularJS directive for fast touch events (tap and swipe)
  * 
  * by Alessandro Bellini - ilmente
@@ -10,7 +10,7 @@
 angular.module('ng').directive('mnTouch', [function(){
 	var _touch = function(scope, element, attrs){
 		var target = element[0];
-		var threshold = 10;
+		var threshold = !!attrs.threshold ? attrs.threshold : 10;
 		
 		var fn = function(eventName){
 			if (!!attrs[eventName]){
@@ -22,7 +22,7 @@ angular.module('ng').directive('mnTouch', [function(){
 		var eventInfos = {
 			startType: 'mousedown',
 			endType: 'mouseup',
-			cancelType: '',
+			cancelType: false,
 			getCoords: function(event){
 				return {
 					x: event.pageX || 0,
