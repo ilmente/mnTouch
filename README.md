@@ -58,6 +58,7 @@ Obviously, you can use it with any html element other than div. Enjoy! ;)
 If you want to change the edge between *secure-tap* and *swipe-…* events, you can do it using the *threshold* attribute. This represents the number of offset-points (between the start and the end of the touch) under which the event is recognized as a *secure-tap*. If the offset is higher than *threshold*, the event will be processed as a *swipe-…* depending on the direction.
 
 **Default threshold is 10.**
+	
 	<div 
 		mn-touch 
 		threshold=“30”
