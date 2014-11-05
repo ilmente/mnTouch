@@ -3,12 +3,12 @@ mnTouch
 
 Simple AngularJS directive for fast touch events (tap and swipe).
 
-# Why?
+## Why?
 Well, I'm working on a mobile project and I have to create a Cordova app that works smoothly on Android (4.1.*+), iOS (7+) and Windows Phone (8.0+).
 
 I tried ngTouch, Quo.js, Hammer.js, ecc. but nothing reached the performances (and the cross-platform portability as well) I wanted, so I decided to write my own directive: **really fast** and **really tested** on many devices.
 
-# Usage
+## Usage
 Nothing simpler.
 Include this directive in your project and add it to the dependencies of your module.
 	
@@ -67,12 +67,12 @@ If you want to change the edge between *secure-tap* and *swipe-…* events, you 
 	...
 	</div>
 
-# Dependencies
+## Dependencies
 This plugin needs **AngularJS** only (version 1.2.*+ for sure; other versions haven’t been tested yet, but I think this directive would run anyway).
 
 No jQuery required (but you can use it).
 
-# Version
+## Version
 The current version is 1.0.4.
 
 **1.0.4**
