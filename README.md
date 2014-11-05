@@ -19,18 +19,24 @@ Include this directive in your project and add it to the dependencies of your mo
 	<div 
 		mn-touch 
 		tap="yourFunction()" >
+	...
+	</div>
 
 
 ### Secure tap
 	<div 
 		mn-touch 
 		secure-tap=“yourFunction()" >
+	...
+	</div>
 
 
 ### Swipe (left, right, up, down)
 	<div 
 		mn-touch 
 		swipe-left=“yourFunction()" >
+	...
+	</div>
 
 
 ### Mixed events
@@ -39,6 +45,8 @@ Include this directive in your project and add it to the dependencies of your mo
 		secure-tap=“yourFunction()" 
 		swipe-left="yourSwipeLeftFunction()" 
 		swipe-down="yourSwipeDownFunction()" >
+	...
+	</div>
 
 Maybe you're asking why I've implemented 2 different taps:
 - **tap** is faster and doesn't perform any check if the target element (or the parent) has other touch event handlers attached on it, so it's fired immediately; no other event will be fired, so use it on elements that need to handle this event only;
