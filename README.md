@@ -10,9 +10,9 @@ I tried ngTouch, Quo.js, Hammer.js, ecc. but nothing reached the performances (a
 
 ## Usage
 Nothing simpler.
-Include this directive in your project and add it to the dependencies of your module.
+This directive's module is 'ng', the main one, so you don't need to add any particular dependency to your module.
 	
-	var module = angular.module('yourModule', ['mnTouch']);
+	var module = angular.module('yourModule', []);
 
 
 ### Tap
@@ -73,11 +73,11 @@ This plugin needs **AngularJS** only (version 1.2.*+ for sure; other versions ha
 No jQuery required (but you can use it).
 
 ## Version
-The current version is 1.0.4.
+Current version is 1.0.4.
 
 **1.0.4**
-- added threshold attribute;
+- threshold attribute added
 
 **1.0.3**
-- added support for cancel events (touchcancel, MSPointerOut);
-- dynamic handlers improved;
+- support for cancel events (touchcancel, MSPointerOut) added 
+- dynamic handlers improved
