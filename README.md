@@ -76,7 +76,7 @@ And what about information? How can I call a `preventDefault()`? Here I am: from
 	...
 	</div>
 
-As you can see, the *secure-tap* receive an object called `$event` containing all the informations you need to manage your touch event. I adopted the same standard used by *AngularJS* in terms of event-information objects.
+As you can see, the *swipe-left* receives an object called `$event` containing all the informations you need to manage your touch event. I adopted the same standard used by *AngularJS* in terms of event-information objects.
 Obviously, `$event` is optional and this is its structure:
 
 	{		name: string, // event name
