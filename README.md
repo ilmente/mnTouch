@@ -89,7 +89,7 @@ Obviously, `$event` is optional and this is its structure:
 		},
 		coords: {
 			start: {x, y}, // couple of integer
-			end: {x, y} // optional - tap event haven't it
+			end: {x, y} // optional - tap event hasn't it
 		},
 		events: {
 			start: object // original touch start event
