@@ -95,7 +95,7 @@ Obviously, `$event` is optional and this is its structure:
 			start: object // original touch start event
 			end: object // original touch end event - optional, as above
 		}
-	};
+	}
 
 
 ## Dependencies
