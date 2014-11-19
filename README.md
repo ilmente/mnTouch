@@ -66,6 +66,37 @@ If you want to change the edge between *secure-tap* and *swipe-…* events, you 
 		swipe-left="yourSwipeLeftFunction()" >
 	...
 	</div>
+	
+### Event informations
+And what about information? How can I call a `preventDefault()`? Here I am: from version 1.1.0 you can pass an event-informations object to your callback. Example:
+
+	<div 
+		mn-touch 
+		swipe-left="yourSwipeLeftFunction($event)" >
+	...
+	</div>
+
+As you can see, the *secure-tap* receive an object called `$event` containing all the informations you need to manage your touch event. I adopted the same standard used by *AngularJS* in terms of event-information objects.
+Obviously, `$event` is optional and this is its structure:
+
+	{		name: string, // event name
+		target: object, // DOM target,
+		threshold: number, // the threshold integer value,
+		types: {
+			start: string, // original touch start event name
+			end: string, // original touch end event name
+			cancel: string // original touch cancel event name, if exists
+		},
+		coords: {
+			start: {x, y}, // couple of integer
+			end: {x, y} // optional - tap event haven't it
+		},
+		events: {
+			start: object // original touch start event
+			end: object // original touch end event - optional, as above
+		}
+	};
+
 
 ## Dependencies
 This plugin needs **AngularJS** only (version 1.2.*+ for sure; other versions haven’t been tested yet, but I think this directive would run anyway).
@@ -73,7 +104,11 @@ This plugin needs **AngularJS** only (version 1.2.*+ for sure; other versions ha
 No jQuery required (but you can use it).
 
 ## Version
-Current version is 1.0.4.
+Current version is 1.1.0.
+
+**1.1.0**
+- core improvements
+- `$event` object (event infos) added and optionally wrappable
 
 **1.0.4**
 - threshold attribute added

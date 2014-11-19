@@ -1,6 +1,6 @@
 /*
  * 
- * mnTouch, version 1.0.4
+ * mnTouch, version 1.1.0
  * Simple AngularJS directive for fast touch events (tap and swipe)
  * 
  * by Alessandro Bellini - ilmente
@@ -8,36 +8,44 @@
  */ 
 
 angular.module('ng').directive('mnTouch', [function(){
-	var _touch = function(scope, element, attrs){
-		var target = element[0];
-		var threshold = !!attrs.threshold ? attrs.threshold : 10;
+	var touchEngine = function(scope, element, attrs){
+		scope.$event = {
+			target: element[0],
+			threshold: !!attrs.threshold ? attrs.threshold : 10,
+			types: {
+				start: 'mousedown',
+				end: 'mouseup',
+				cancel: ''
+			},
+			coords: {},
+			events: {}
+		};
 		
 		var fn = function(eventName){
+			scope.$event.name = eventName;
+
 			if (!!attrs[eventName]){
 				scope.$eval(attrs[eventName]);
 				scope.$apply();
 			}
 		};
 		
-		var eventInfos = {
-			startType: 'mousedown',
-			endType: 'mouseup',
-			cancelType: false,
-			getCoords: function(event){
-				return {
-					x: event.pageX || 0,
-					y: event.pageY || 0
-				}
+		var getCoords = function(event){
+			return {
+				x: event.pageX || 0,
+				y: event.pageY || 0
 			}
 		};
 		
 		if (typeof window.ontouchstart !== 'undefined' 
 			&& typeof window.ontouchend !== 'undefined'
 			&& typeof window.ontouchcancel !== 'undefined'){
-			eventInfos.startType = 'touchstart';
-			eventInfos.endType = 'touchend';
-			eventInfos.cancelType = 'touchcancel';
-			eventInfos.getCoords = function(event){
+
+			scope.$event.types.start = 'touchstart';
+			scope.$event.types.end = 'touchend';
+			scope.$event.types.cancel = 'touchcancel';
+
+			getCoords = function(event){
 				var coords = !!event 
 					&& !!event.changedTouches 
 					&& !!event.changedTouches.length > 0
@@ -50,49 +58,56 @@ angular.module('ng').directive('mnTouch', [function(){
 				}
 			}
 		} else if (window.navigator.pointerEnabled){
-			eventInfos.startType = 'pointerdown';
-			eventInfos.endType = 'pointerup';
+			scope.$event.types.start = 'pointerdown';
+			scope.$event.types.end = 'pointerup';
 		} else if (window.navigator.msPointerEnabled){
-			eventInfos.startType = 'MSPointerDown';
-			eventInfos.endType = 'MSPointerDown'; 
-			eventInfos.cancelType = 'MSPointerOut';
+			scope.$event.types.start = 'MSPointerDown';
+			scope.$event.types.end = 'MSPointerUp'; 
+			scope.$event.types.cancel = 'MSPointerOut';
 		}
 		
 		if (!!attrs['tap']){
-			target.addEventListener(eventInfos.startType, function(startEvent){
+			scope.$event.target.addEventListener(scope.$event.types.start, function(startEvent){
+				scope.$event.events.start = startEvent;
+				scope.$event.coords.start = getCoords(startEvent);
+
 				fn('tap');
 			}, false);
 		} else {
-			target.addEventListener(eventInfos.startType, function(startEvent){
-				var startCoords = eventInfos.getCoords(startEvent);
+			scope.$event.target.addEventListener(scope.$event.types.start, function(startEvent){
 				var eventEnded = false;
+
+				scope.$event.events.start = startEvent;
+				scope.$event.coords.start = getCoords(startEvent);
 				
 				var onEndEvent = function(endEvent){
 					if (!eventEnded){
 						eventEnded = true;
-						target.removeEventListener(eventInfos.endType, onEndEvent, false);
-						if (!!eventInfos.cancelType) target.removeEventListener(eventInfos.cancelType, onEndEvent, false);
+						scope.$event.events.end = endEvent;
+
+						scope.$event.target.removeEventListener(scope.$event.types.end, onEndEvent, false);
+						if (!!scope.$event.types.cancel) scope.$event.target.removeEventListener(scope.$event.types.cancel, onEndEvent, false);
 					
-						var endCoords = eventInfos.getCoords(endEvent);
-						var directionX = endCoords.x - startCoords.x;
-						var directionY = endCoords.y - startCoords.y;
-						var offsetX = Math.abs(directionX);
-						var offsetY = Math.abs(directionY);
+						scope.$event.coords.end = getCoords(endEvent);
+						scope.$event.directionX = scope.$event.coords.end.x - scope.$event.coords.start.x;
+						scope.$event.directionY = scope.$event.coords.end.y - scope.$event.coords.start.y;
+						scope.$event.offsetX = Math.abs(scope.$event.directionX);
+						scope.$event.offsetY = Math.abs(scope.$event.directionY);
 			
-						if (offsetX <= threshold && offsetY <= threshold) fn('secureTap');
-						else if (offsetX >= offsetY) fn(directionX > 0 ? 'swipeRight' : 'swipeLeft');
-						else fn(directionY > 0 ? 'swipeDown' : 'swipeUp');
+						if (scope.$event.offsetX <= scope.$event.threshold && scope.$event.offsetY <= scope.$event.threshold) fn('secureTap');
+						else if (scope.$event.offsetX >= scope.$event.offsetY) fn(scope.$event.directionX > 0 ? 'swipeRight' : 'swipeLeft');
+						else fn(scope.$event.directionY > 0 ? 'swipeDown' : 'swipeUp');
 					}
 				};
 
-				target.addEventListener(eventInfos.endType, onEndEvent, false);
-				if (!!eventInfos.cancelType) target.addEventListener(eventInfos.cancelType, onEndEvent, false);
+				scope.$event.target.addEventListener(scope.$event.types.end, onEndEvent, false);
+				if (!!scope.$event.types.cancel) scope.$event.target.addEventListener(scope.$event.types.cancel, onEndEvent, false);
 			}, false);
 		}
 	};
 	
     return {
 		restrict: 'A',
-        link: _touch
+        link: touchEngine
     }
 }]);
