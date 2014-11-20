@@ -79,6 +79,25 @@ And what about information? How can I call a `preventDefault()`? Here I am: from
 As you can see, the *swipe-left* receives an object called `$event` containing all the informations you need to manage your touch event. I adopted the same standard used by *AngularJS* in terms of event-information objects.
 Obviously, `$event` is optional and this is its structure:
 
+	// tap only
+	{
+		name: string, // event name
+		target: object, // DOM target,
+		threshold: number, // the threshold integer value,
+		types: {
+			start: string, // original touch start event name
+			end: string, // original touch end event name
+			cancel: string // original touch cancel event name, if exists
+		},
+		coords: {
+			start: {x, y}, // couple of integer
+		},
+		events: {
+			start: object // original touch start event
+		}
+	}
+	
+	// secure-tap, swipe-*
 	{		name: string, // event name
 		target: object, // DOM target,
 		threshold: number, // the threshold integer value,
@@ -89,12 +108,16 @@ Obviously, `$event` is optional and this is its structure:
 		},
 		coords: {
 			start: {x, y}, // couple of integer
-			end: {x, y} // optional - tap event hasn't it
+			end: {x, y} // couple of integer
 		},
 		events: {
 			start: object // original touch start event
-			end: object // original touch end event - optional, as above
+			end: object // original touch end event
 		}
+		directionX: number, // x difference between end point and start point
+		directionY: number, // y difference between end point and start point
+		offsetX: number, // absolute value of directionX
+		offsetY: number, // absolute value of directionY
 	}
 
 
