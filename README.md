@@ -84,6 +84,8 @@ Obviously, `$event` is optional and this is its structure:
 		name: string, // event name
 		target: object, // DOM target,
 		threshold: number, // the threshold integer value,
+		isRunning: boolean, // always false - event cycle is ended
+		isSecure: boolean, // always false - tap is not secure (see below)
 		types: {
 			start: string, // original touch start event name
 			end: string, // original touch end event name
@@ -101,6 +103,8 @@ Obviously, `$event` is optional and this is its structure:
 	{		name: string, // event name
 		target: object, // DOM target,
 		threshold: number, // the threshold integer value,
+		isRunning: boolean, // always false - event cycle is ended
+		isSecure: boolean, // always true - secure-tap and swipe-* are secure (see below)
 		types: {
 			start: string, // original touch start event name
 			end: string, // original touch end event name
@@ -127,7 +131,10 @@ This plugin needs **AngularJS** only (version 1.2.*+ for sure; other versions ha
 No jQuery required (but you can use it).
 
 ## Version
-Current version is 1.1.0.
+Current version is 1.1.1.
+
+**1.1.1**
+- new event handling system
 
 **1.1.0**
 - core improvements

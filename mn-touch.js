@@ -1,6 +1,6 @@
 /*
  * 
- * mnTouch, version 1.1.0
+ * mnTouch, version 1.1.1
  * Simple AngularJS directive for fast touch events (tap and swipe)
  * 
  * by Alessandro Bellini - ilmente
@@ -67,42 +67,44 @@ angular.module('ng').directive('mnTouch', [function(){
 		}
 		
 		if (!!attrs['tap']){
-			scope.$event.target.addEventListener(scope.$event.types.start, function(startEvent){
+			scope.$event.isSecure = false;
+			scope.$event.isRunning = false;
+
+			var onStartEvent = function(startEvent){
 				scope.$event.events.start = startEvent;
 				scope.$event.coords.start = getCoords(startEvent);
-
 				fn('tap');
-			}, false);
-		} else {
-			scope.$event.target.addEventListener(scope.$event.types.start, function(startEvent){
-				var eventEnded = false;
+			};
 
+			scope.$event.target.addEventListener(scope.$event.types.start, onStartEvent, false);
+		} else {
+			scope.$event.isSecure = true;
+
+			var onStartEvent = function(startEvent){
+				scope.$event.isRunning = true;
 				scope.$event.events.start = startEvent;
 				scope.$event.coords.start = getCoords(startEvent);
-				
-				var onEndEvent = function(endEvent){
-					if (!eventEnded){
-						eventEnded = true;
-						scope.$event.events.end = endEvent;
+			};
 
-						scope.$event.target.removeEventListener(scope.$event.types.end, onEndEvent, false);
-						if (!!scope.$event.types.cancel) scope.$event.target.removeEventListener(scope.$event.types.cancel, onEndEvent, false);
+			var onEndEvent = function(endEvent){
+				if (scope.$event.isRunning){
+					scope.$event.isRunning = false;
+					scope.$event.events.end = endEvent;
+					scope.$event.coords.end = getCoords(endEvent);
+					scope.$event.directionX = scope.$event.coords.end.x - scope.$event.coords.start.x;
+					scope.$event.directionY = scope.$event.coords.end.y - scope.$event.coords.start.y;
+					scope.$event.offsetX = Math.abs(scope.$event.directionX);
+					scope.$event.offsetY = Math.abs(scope.$event.directionY);
 					
-						scope.$event.coords.end = getCoords(endEvent);
-						scope.$event.directionX = scope.$event.coords.end.x - scope.$event.coords.start.x;
-						scope.$event.directionY = scope.$event.coords.end.y - scope.$event.coords.start.y;
-						scope.$event.offsetX = Math.abs(scope.$event.directionX);
-						scope.$event.offsetY = Math.abs(scope.$event.directionY);
-			
-						if (scope.$event.offsetX <= scope.$event.threshold && scope.$event.offsetY <= scope.$event.threshold) fn('secureTap');
-						else if (scope.$event.offsetX >= scope.$event.offsetY) fn(scope.$event.directionX > 0 ? 'swipeRight' : 'swipeLeft');
-						else fn(scope.$event.directionY > 0 ? 'swipeDown' : 'swipeUp');
-					}
-				};
+					if (scope.$event.offsetX <= scope.$event.threshold && scope.$event.offsetY <= scope.$event.threshold) fn('secureTap');
+					else if (scope.$event.offsetX >= scope.$event.offsetY) fn(scope.$event.directionX > 0 ? 'swipeRight' : 'swipeLeft');
+					else fn(scope.$event.directionY > 0 ? 'swipeDown' : 'swipeUp');
+				}
+			};
 
-				scope.$event.target.addEventListener(scope.$event.types.end, onEndEvent, false);
-				if (!!scope.$event.types.cancel) scope.$event.target.addEventListener(scope.$event.types.cancel, onEndEvent, false);
-			}, false);
+			scope.$event.target.addEventListener(scope.$event.types.start, onStartEvent, false);
+			scope.$event.target.addEventListener(scope.$event.types.end, onEndEvent, false);
+			if (!!scope.$event.types.cancel) scope.$event.target.addEventListener(scope.$event.types.cancel, onEndEvent, false);
 		}
 	};
 	
