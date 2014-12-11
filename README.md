@@ -111,6 +111,7 @@ Obviously, `$event` is optional and this is its structure:
 		isSecure: boolean, // always false - tap is not secure (see below)
 		types: {
 			start: string, // original touch start event name
+			move: string, // original touch move event name
 			end: string, // original touch end event name
 			cancel: string // original touch cancel event name, if exists
 		},
@@ -131,6 +132,7 @@ Obviously, `$event` is optional and this is its structure:
 		isSecure: boolean, // always true - secure-tap and swipe-* are secure (see below)
 		types: {
 			start: string, // original touch start event name
+			move: string, // original touch move event name
 			end: string, // original touch end event name
 			cancel: string // original touch cancel event name, if exists
 		},
