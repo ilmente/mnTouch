@@ -1,20 +1,22 @@
 /*
  * 
- * mnTouch, version 1.1.1
+ * mnTouch, version 1.2.0
  * Simple AngularJS directive for fast touch events (tap and swipe)
  * 
  * by Alessandro Bellini - ilmente
  *
  */ 
 
-angular.module('ng').directive('mnTouch', [function(){
+angular.module('mn', []).directive('mnTouch', ['$timeout', function($timeout){
 	var touchEngine = function(scope, element, attrs){
 		scope.$event = {
 			target: element[0],
 			threshold: !!attrs.threshold ? attrs.threshold : 10,
+			holdfor: 1000,
 			types: {
 				start: 'mousedown',
 				end: 'mouseup',
+				move: 'mousemove',
 				cancel: ''
 			},
 			coords: {},
@@ -43,6 +45,7 @@ angular.module('ng').directive('mnTouch', [function(){
 
 			scope.$event.types.start = 'touchstart';
 			scope.$event.types.end = 'touchend';
+			scope.$event.types.move = 'touchmove';
 			scope.$event.types.cancel = 'touchcancel';
 
 			getCoords = function(event){
@@ -59,9 +62,11 @@ angular.module('ng').directive('mnTouch', [function(){
 			}
 		} else if (window.navigator.pointerEnabled){
 			scope.$event.types.start = 'pointerdown';
+			scope.$event.types.move = 'pointermove';
 			scope.$event.types.end = 'pointerup';
 		} else if (window.navigator.msPointerEnabled){
 			scope.$event.types.start = 'MSPointerDown';
+			scope.$event.types.move = 'MSPointerMove';
 			scope.$event.types.end = 'MSPointerUp'; 
 			scope.$event.types.cancel = 'MSPointerOut';
 		}
@@ -84,9 +89,23 @@ angular.module('ng').directive('mnTouch', [function(){
 				scope.$event.isRunning = true;
 				scope.$event.events.start = startEvent;
 				scope.$event.coords.start = getCoords(startEvent);
+
+				if (!!attrs['hold']){
+					$timeout(function(){
+						if (scope.$event.isRunning){
+							scope.$event.target.addEventListener(scope.$event.types.move, onMoveEvent, false);
+						}
+
+						$timeout(function(){
+							if (scope.$event.isRunning){
+								onMoveEvent(startEvent);
+							}
+						}, 32, false);
+					}, scope.$event.holdfor, false);
+				}
 			};
 
-			var onEndEvent = function(endEvent){
+			var onEndEvent = function(endEvent, isHold){
 				if (scope.$event.isRunning){
 					scope.$event.isRunning = false;
 					scope.$event.events.end = endEvent;
@@ -96,10 +115,18 @@ angular.module('ng').directive('mnTouch', [function(){
 					scope.$event.offsetX = Math.abs(scope.$event.directionX);
 					scope.$event.offsetY = Math.abs(scope.$event.directionY);
 					
-					if (scope.$event.offsetX <= scope.$event.threshold && scope.$event.offsetY <= scope.$event.threshold) fn('secureTap');
+					if (scope.$event.offsetX <= scope.$event.threshold && scope.$event.offsetY <= scope.$event.threshold){
+						if (!!isHold) fn('hold');
+						else fn('secureTap');
+					}
 					else if (scope.$event.offsetX >= scope.$event.offsetY) fn(scope.$event.directionX > 0 ? 'swipeRight' : 'swipeLeft');
 					else fn(scope.$event.directionY > 0 ? 'swipeDown' : 'swipeUp');
 				}
+			};
+
+			var onMoveEvent = function(moveEvent){
+				scope.$event.target.removeEventListener(scope.$event.types.move, onMoveEvent, false);
+				onEndEvent(moveEvent, true);
 			};
 
 			scope.$event.target.addEventListener(scope.$event.types.start, onStartEvent, false);

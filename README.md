@@ -10,9 +10,9 @@ I tried ngTouch, Quo.js, Hammer.js, ecc. but nothing reached the performances (a
 
 ## Usage
 Nothing simpler.
-This directive's module is 'ng', the main one, so you don't need to add any particular dependency to your module.
+This directive's module is '**mn**': add it to your module dependencies.
 	
-	var module = angular.module('yourModule', []);
+	var module = angular.module('yourModule', ['mn']);
 
 
 ### Tap
@@ -27,6 +27,14 @@ This directive's module is 'ng', the main one, so you don't need to add any part
 	<div 
 		mn-touch 
 		secure-tap=“yourFunction()" >
+	...
+	</div>
+
+
+### Hold
+	<div 
+		mn-touch 
+		hold=“yourFunction()" >
 	...
 	</div>
 
@@ -56,6 +64,7 @@ Obviously, you can use it with any html element other than div.
 
 ### Threshold
 If you want to change the edge between *secure-tap* and *swipe-…* events, you can do it using the *threshold* attribute. It represents the number of offset-points (between the start and the end of the touch) under which the event is recognized as a *secure-tap*. If the offset is higher than *threshold*, the event will be processed as a *swipe-…* depending on the direction.
+*Hold* event also responds to this rule, as the *secure-tap* event does.
 
 **Default threshold is 10.**
 	
@@ -67,6 +76,20 @@ If you want to change the edge between *secure-tap* and *swipe-…* events, you 
 	...
 	</div>
 	
+### Holdfor
+If you want to change the edge between *secure-tap* and *hold* events, you can do it using the *holdfor* attribute. It represents the number of milliseconds over which the *secure-tap* event is recognized as a *hold*.
+
+**Default holdfor is 1000.**
+	
+	<div 
+		mn-touch 
+		holdfor=“600”
+		secure-tap=“yourFunction()" 
+		hold="yourHoldFunction()" >
+	...
+	</div>
+	
+
 ### Event informations
 And what about information? How can I call a `preventDefault()`? Here I am: from version 1.1.0 you can pass an event-informations object to your callback. Example:
 
@@ -100,7 +123,8 @@ Obviously, `$event` is optional and this is its structure:
 	}
 	
 	// secure-tap, swipe-*
-	{		name: string, // event name
+	{
+		name: string, // event name
 		target: object, // DOM target,
 		threshold: number, // the threshold integer value,
 		isRunning: boolean, // always false - event cycle is ended
@@ -131,7 +155,12 @@ This plugin needs **AngularJS** only (version 1.2.*+ for sure; other versions ha
 No jQuery required (but you can use it).
 
 ## Version
-Current version is 1.1.1.
+Current version is 1.2.0.
+
+**1.2.0**
+- default module name changed from 'ng' (not supported anymore for external components) to 'mn'
+- hold event added (not tested on WindowsPhone yet... sorry!)
+- holdfor attribute added
 
 **1.1.1**
 - new event handling system
