@@ -79,7 +79,7 @@ If you want to change the edge between *secure-tap* and *swipe-…* events, you 
 ### Holdfor
 If you want to change the edge between *secure-tap* and *hold* events, you can do it using the *holdfor* attribute. It represents the number of milliseconds over which the *secure-tap* event is recognized as a *hold*.
 
-**Default holdfor is 1000.**
+**Default holdfor is 500.**
 	
 	<div 
 		mn-touch 

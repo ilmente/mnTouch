@@ -12,7 +12,7 @@ angular.module('mn', []).directive('mnTouch', ['$timeout', function($timeout){
 		scope.$event = {
 			target: element[0],
 			threshold: !!attrs.threshold ? attrs.threshold : 10,
-			holdfor: 1000,
+			holdfor: !!attrs.holdfor ? attrs.holdfor : 500,
 			types: {
 				start: 'mousedown',
 				end: 'mouseup',
