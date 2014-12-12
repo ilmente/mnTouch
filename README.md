@@ -1,7 +1,7 @@
 mnTouch
 =======
 
-Simple AngularJS directive for fast touch events (tap and swipe).
+Simple AngularJS directive for fast touch events (tap, hold and swipe).
 
 ## Why?
 Well, I'm working on a mobile project and I have to create a Cordova app that works smoothly on Android (4.1.*+), iOS (7+) and Windows Phone (8.0+).
@@ -157,7 +157,11 @@ This plugin needs **AngularJS** only (version 1.2.*+ for sure; other versions ha
 No jQuery required (but you can use it).
 
 ## Version
-Current version is 1.2.0.
+Current version is 1.2.1.
+
+**1.2.1**
+- documentation updated
+- minor bugfixing
 
 **1.2.0**
 - default module name changed from 'ng' (not supported anymore for external components) to 'mn'
