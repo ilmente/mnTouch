@@ -5,7 +5,7 @@
   "authors": [
     "Alessandro Bellini <hello@ilmente.it>"
   ],
-  "description": "Simple AngularJS directive for fast touch events (tap, hold and swipe).",
+  "description": "Ultrafast AngularJS touch events directive (tap, hold and swipe)",
   "main": "mn-touch.js",
   "moduleType": [
     "globals"
