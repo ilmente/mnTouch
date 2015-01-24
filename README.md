@@ -105,8 +105,9 @@ Obviously, `$event` is optional and this is its structure:
 	// tap only
 	{
 		name: string, // event name
-		target: object, // DOM target,
-		threshold: number, // the threshold integer value,
+		target: object, // DOM element targeted by the directive,
+		threshold: number, // the threshold integer value
+		holdfor: number, // the holdfor integer value
 		isRunning: boolean, // always false - event cycle is ended
 		isSecure: boolean, // always false - tap is not secure (see below)
 		types: {
@@ -123,11 +124,12 @@ Obviously, `$event` is optional and this is its structure:
 		}
 	}
 	
-	// secure-tap, swipe-*
+	// secure-tap, hold, swipe-*
 	{
 		name: string, // event name
-		target: object, // DOM target,
+		target: object, // DOM element targeted by the directive,
 		threshold: number, // the threshold integer value,
+		holdfor: number, // the holdfor integer value
 		isRunning: boolean, // always false - event cycle is ended
 		isSecure: boolean, // always true - secure-tap and swipe-* are secure (see below)
 		types: {
