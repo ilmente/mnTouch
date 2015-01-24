@@ -13,8 +13,13 @@
         <title>mn-touch test</title>
 	</head>
     <body>
-    	<div ng-controller="test">
-    		<div id="button" style="width:12cm;height:12cm;background:red;margin:20px;" mn-touch secure-tap="secureTap()" hold="hold()"></div>
+    	<div ng-controller="test" style="text-align:center;">
+    		<div id="container" mn-touch secure-tap="secureTap($event)" hold="hold($event)">
+    			<div id="button" style="width:100px;height:100px;background:red;padding:30px;margin:20px auto;">
+    				Tap or hold me!
+    			</div>
+    			<button>Tap or hold me, too!</button>
+    		</div>
     	</div>
 	</body>
 </html>

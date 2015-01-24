@@ -12,12 +12,14 @@ app.initialize();
 var mnTouchTest = angular.module('mnTouchTest', ['mn']);
 
 mnTouchTest.controller('test', ['$scope', function($scope){
-	$scope.secureTap = function(){
+	$scope.secureTap = function($event){
 		alert('secure tap');
+		console.log('secure tap: %o', $event);
 	};
 
-	$scope.hold = function(){
+	$scope.hold = function($event){
 		alert('hold');
+		console.log('hold: %o', $event);
 	};
 }]);
 
