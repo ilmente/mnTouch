@@ -159,7 +159,9 @@ This plugin needs **AngularJS** only (version 1.2.*+ for sure; other versions ha
 No jQuery required (but you can use it).
 
 ## Version
-Current version is 1.2.2.
+
+**1.2.3**
+- package.json added
 
 **1.2.2**
 - bower.json added (thanks to [DEllingsworth](https://github.com/DEllingsworth))

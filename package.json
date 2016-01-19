@@ -1,0 +1,27 @@
+{
+  "name": "mn-touch",
+  "version": "1.2.3",
+  "description": "Ultrafast AngularJS touch events directive (tap, hold and swipe)",
+  "main": "mn-touch.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://ilmente@github.com/ilmente/mnTouch.git"
+  },
+  "keywords": [
+    "angulat",
+    "touch",
+    "swipe",
+    "hold",
+    "tap",
+    "fast"
+  ],
+  "author": "Alessandro Bellini - ilmente <hello@ilmente.it>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ilmente/mnTouch/issues"
+  },
+  "homepage": "https://github.com/ilmente/mnTouch#readme"
+}
