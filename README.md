@@ -8,6 +8,11 @@ Well, I'm working on a mobile project and I have to create a Cordova app that wo
 
 I tried ngTouch, Quo.js, Hammer.js, ecc. but nothing reached the performances (and the cross-platform portability as well) I wanted, so I decided to write my own directive: **really fast** and **really tested** on many devices.
 
+## Install
+- bower: `bower install mn-touch`
+- npm: `npm install mn-touch`
+- by hand: *read below...*
+
 ## Usage
 Nothing simpler.
 This directive's module is '**mn**': add it to your module dependencies.
