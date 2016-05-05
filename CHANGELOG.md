@@ -1,4 +1,20 @@
-# Change log
+# Changelog
+
+**1.3.0**
+- new hold engine system (more accurate)
+- event returns times (start, end and duration)
+- event object normalized (tap and other events return the sam event object)
+- example code updated
+- `test` folder is now `example` (test will be used for tests - coming soon)
+- `package.json` edited: 
+    - added `uglify-js` devDependency
+    - added `npm run build` task for minifing the code
+    - main property addresses `dist/mn-touch.js`
+- `bower.json` edited: 
+    - main property addresses `dist/mn-touch.min.js`
+- `dist` folder added (with normal and compressed version with source map)
+- `src` folder added
+- README updated
 
 **1.2.5**
 - README file changed
