@@ -164,7 +164,7 @@ $ npm run build # run compression task on source and output the dist files
 ```
 
 ## Known issues
-- Google Chrome suggest to use deferred for long-task execution ([issue here](https://bugs.chromium.org/p/chromium/issues/detail?id=574343)), but since I don't want to add any dependency to this plugin (except for Angular), I will live with this warning.
+- Google Chrome suggest to use deferred for long-task execution ([read more](https://bugs.chromium.org/p/chromium/issues/detail?id=574343)), but since I don't want to add any dependency to this plugin (except for Angular), I will live with this warning.
 
 ## License
 This software is released under MIT license terms.
