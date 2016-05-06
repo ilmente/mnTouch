@@ -1,5 +1,8 @@
 # Changelog
 
+**1.3.2**
+- minor bugfixes
+
 **1.3.1**
 - example code updated
 - README updated
