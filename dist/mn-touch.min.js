@@ -1,7 +1,7 @@
 /**
  * 
  * @name: mnTouch
- * @version: 1.3.0
+ * @version: 1.3.1
  * @description: Ultrafast AngularJS touch events directive (tap, hold and swipe)
  * @author: Alessandro Bellini - ilmente
  * @license: MIT
