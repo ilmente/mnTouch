@@ -118,35 +118,35 @@ Obviously, `$event` is optional and this is its structure:
 
 ``` js
 {
-	name: string, // event name
-	target: object, // DOM element targeted by the directive,
-	threshold: number, // the threshold integer value,
-	holdfor: number, // the holdfor integer value
-	isRunning: boolean, // always false - event cycle is ended
-	isSecure: boolean, // always true - secure-tap and swipe-* are secure (see below)
+	name: 'event-name', // event name
+	target: {}, // DOM element targeted by the directive
+	threshold: 10, // the threshold integer value
+	holdfor: 500, // the holdfor integer value
+	isRunning: false, // event status
+	isSecure: true, // tap is not secure, all other evets are secure
+	directionX: -15, // x difference between end point and start point
+	directionY: 3, // y difference between end point and start point
+	offsetX: 15, // absolute value of directionX
+	offsetY: 3, // absolute value of directionY
 	types: {
-		start: string, // original touch start event name
-		move: string, // original touch move event name
-		end: string, // original touch end event name
-		cancel: string // original touch cancel event name, if exists
+		start: 'touchstart', // original touch start event name
+		move: 'touchmove', // original touch move event name
+		end: 'touchend', // original touch end event name
+		cancel: 'touchcancel' // original touch cancel event name, if exists
 	},
 	coords: {
 		start: {x, y}, // couple of integer
 		end: {x, y} // couple of integer
 	},
 	events: {
-		start: object, // original touch start event
-		end: object // original touch end event
+		start: {}, // original touch start event
+		end: {} // original touch end event
 	},
 	time: {
-		start: integer, // original touch start time
-		end: integer, // original touch end time
-		duration: integer // end - start
-	},
-	directionX: integer, // x difference between end point and start point
-	directionY: integer, // y difference between end point and start point
-	offsetX: integer, // absolute value of directionX
-	offsetY: integer // absolute value of directionY
+		start: 123456000, // touch start time
+		end: 123456700, // touch end time
+		duration: 700 // touch duration
+	}
 }
 ```
 

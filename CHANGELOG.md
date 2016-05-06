@@ -1,5 +1,9 @@
 # Changelog
 
+**1.3.1**
+- example code updated
+- README updated
+
 **1.3.0**
 - new hold engine system (more accurate)
 - event returns times (start, end and duration)

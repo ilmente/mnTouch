@@ -15,6 +15,11 @@
     <body>
     	<div ng-controller="example" style="text-align:center;">
     		<div id="container">
+                <button
+                    mn-touch 
+                    tap="log($event)">
+                    Tap me!
+                </button>
     			<div 
                     id="button" 
                     mn-touch 
@@ -24,14 +29,14 @@
                     swipe-down="log($event)"
                     swipe-left="log($event)" 
                     style="width:100px;height:100px;background:red;padding:30px;margin:20px auto;">
-    				Tap or swipe me!
+    				Tap (secure) or swipe me!
     			</div>
     			<button
                     mn-touch 
                     secure-tap="log($event)" 
                     hold="log($event)" 
                     holdfor="1000">
-                    Tap or hold me!
+                    Tap (secure) or hold me!
                 </button>
     		</div>
     	</div>
